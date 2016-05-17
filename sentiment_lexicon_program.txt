@@ -1,0 +1,27 @@
+"""
+	tknzr = TweetTokenizer()
+	print(next(iter(user_list[0].get_Tweet_texts())))
+	tokens = tknzr.tokenize(next(iter(user_list[0].get_Tweet_texts())))
+
+	tnt_pos_tagger = tnt.TnT()
+	tnt_pos_tagger.train(conll2002.tagged_sents('ned.train'))
+
+	posTagged = tnt_pos_tagger.tag(tokens)
+	print(tokens)
+	print(posTagged)
+	stemmer = SnowballStemmer('dutch')
+
+	sentence = ['Pauw', 'en', 'Witteman', ':', 'Kasper', 'van', 'Kooten', ',', 'wat', 'een', 'heerlijke', 'en', 'frisse', 'persoonlijkheid', '.', 'Inspirerend', '!']
+	for word in tokens:
+		if word[-1] == 'e':
+			word = stemmer.stem(word)
+		for p in word_pos_pol:
+			if p[0] == word.lower():
+				print(p)
+	"""
+
+from nltk.tokenize import TweetTokenizer
+from nltk.stem.snowball import SnowballStemmer
+from nltk.tag import tnt
+from nltk.corpus import conll2002
+import xml.etree.ElementTree as ET
