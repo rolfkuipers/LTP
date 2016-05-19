@@ -61,7 +61,10 @@ shuffle(combi)
 X = []
 y = []
 for tweets, m in user_list:
-	X.append(tweets)
+	if len(tweets) < 1:
+		pass
+	else:
+		X.append(tweets)
 	if args.type[0].upper() == m:
 		y.append(1)
 	else:
