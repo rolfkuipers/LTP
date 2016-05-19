@@ -1,6 +1,6 @@
 from __future__ import print_function
 import numpy as np
-import pickle as pk
+import pickle 
 import time
 from random import shuffle
 from data_class import User_Information
