@@ -62,7 +62,10 @@ totaltweets = []
 totalclasses = []
 for tweets, m in user_list:
 	totaltweets.append(tweets)
-	totalclasses.append(m)
+	if args.type[0].upper() == m:
+		totalclasses.append(1)
+	else:
+		totalclasses.append(2)
 
 # Create a tokenizer
 print('Fitting text on tokenizer...')
