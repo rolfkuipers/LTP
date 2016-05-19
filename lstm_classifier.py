@@ -19,8 +19,7 @@ start_time = time.time()
 
 # Setting some parameters
 max_words = 6000
-batch_size = 20
-nb_epoch = 5
+
 
 num_tweets = 500	
 num_users = 1000	# Is all users
@@ -29,6 +28,7 @@ num_users = 1000	# Is all users
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--type',help="which classification problem to use", choices=("ie","si","ft", "jp"), default="ie")
+parser.add_argument('--NN', help="type of NN", choices=("lstm","simplernn"), default="simplernn")
 args = parser.parse_args()
 
 pickles = {'ie':'introvert_extravert','si':'sensing_intuition','ft':'feeling_thinking','jp':'judging_perceiving'}
@@ -92,19 +92,31 @@ nb_classes = np.max(y_train)+1
 y_train = np_utils.to_categorical(y_train, nb_classes)
 y_test = np_utils.to_categorical(y_test, nb_classes)
 
-print('Building model... 6')
-model = Sequential()
+
 
 # LSTM model
 input_size = len(max(X_train, key=len))
 
 X_train = sequence.pad_sequences(X_train, maxlen=input_size)
 X_test = sequence.pad_sequences(X_test, maxlen=input_size)
+print('Building model... 6')
+model = Sequential()
+if args.NN == 'lstm':
+	batch_size = 20
+	nb_epoch = 5
+	model.add(Embedding(input_dim=max_words, output_dim=128, input_length=input_size, dropout=0.2))
+	model.add(LSTM(128, dropout_W=0.2, dropout_U=0.2))  
+	model.add(Dense(nb_classes))
+	model.add(Activation('sigmoid'))
 
-model.add(Embedding(input_dim=max_words, output_dim=128, input_length=input_size, dropout=0.2))
-model.add(LSTM(128, dropout_W=0.2, dropout_U=0.2))  
-model.add(Dense(nb_classes))
-model.add(Activation('sigmoid'))
+if args.NN == 'simplernn':
+	batch_size = 20
+	nb_epoch = 5
+	model.add(Embedding(input_dim=max_words, output_dim=128, input_length=input_size, dropout=0.2))
+	model.add(SimpleRNN(128, dropout_W=0.2, dropout_U=0.2))  
+	model.add(Dense(nb_classes))
+	model.add(Activation('sigmoid'))
+
 
 model.compile(loss='categorical_crossentropy',
               optimizer='sgd',
