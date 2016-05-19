@@ -58,24 +58,24 @@ for user in user_list[:num_users]:
 # Shuffle the data
 shuffle(combi)
 """
-totaltweets = []
-totalclasses = []
+X = []
+y = []
 for tweets, m in user_list:
-	totaltweets.append(tweets)
+	X.append(tweets)
 	if args.type[0].upper() == m:
-		totalclasses.append(1)
+		y.append(1)
 	else:
-		totalclasses.append(2)
+		y.append(2)
 
 # Create a tokenizer
 print('Fitting text on tokenizer...')
 tokenizer = Tokenizer()
-tokenizer.fit_on_texts(totaltweets)
+tokenizer.fit_on_texts(X)
 
 # Split the data
 print('Split text into train and test...')
-X = [tweets for tweets,_ in user_list]
-y = [cl for _, cl in user_list]
+#X = [tweets for tweets,_ in user_list]
+#y = [cl for _, cl in user_list]
 
 split_point = int(len(X) * 0.90)
 X_train, X_test = X[:split_point], X[split_point:]
