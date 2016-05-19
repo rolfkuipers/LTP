@@ -123,7 +123,7 @@ if args.NN == 'simplernn':
 if args.NN == 'dense':
 	model.add(Dense(256, input_dim=max_words,input_length=input_size))
 	model.add(Dropout(0.2))
-	model.add(Dense(128)
+	model.add(Dense(128))
 	model.add(Dropout(0.2))
 	model.add(Dense(nb_classes))
 	model.add(Activation('sigmoid'))
