@@ -65,10 +65,10 @@ for tweets, m in user_list:
 		pass
 	else:
 		X.append(tweets)
-	if args.type[0].upper() == m:
-		y.append(1)
-	else:
-		y.append(2)
+		if args.type[0].upper() == m:
+			y.append(1)
+		else:
+			y.append(2)
 
 # Create a tokenizer
 print('Fitting text on tokenizer...')
