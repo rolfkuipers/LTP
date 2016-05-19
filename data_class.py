@@ -1,20 +1,33 @@
 import re
+import string
+from nltk.tokenize import wordpunct_tokenize
 
-def processTweet(tweet):
-	# process the tweets
-
-	#Convert to lower case
+def processTweet(tweet,printable):
+	# Process the tweets
+	
+	# Convert to lower case
 	tweet = tweet.lower()
-	#Convert www.* or https?://* to URL
+	# Convert www.* or https?://* to URL
 	tweet = re.sub('((www\.[^\s]+)|(https?://[^\s]+))','URL',tweet)
-	#Convert @username to AT_USER
+	# Convert @username to AT_USER
 	tweet = re.sub('@[^\s]+','AT_USER',tweet)
-	#Remove additional white spaces
+	# Remove additional white spaces
 	tweet = re.sub('[\s]+', ' ', tweet)
-	#Replace #word with word
+	# Replace #word with word
 	tweet = re.sub(r'#([^\s]+)', r'\1', tweet)
-	#trim
+	# trim
 	tweet = tweet.strip('\'"')
+	# tokenize on punctuation
+	tweet = " ".join(wordpunct_tokenize(tweet))
+	# remove personality abbreviations (e.g. ENFP etc.)
+	traits = ['istj','isfj','infj','intj','istp','isfp','infp','intp','estp','esfp','enfp','entp','estj','esfj','enfj','entj']
+	for word in tweet.split():
+		if word in traits:
+			tweet = " ".join([word for word in tweet.split() if word not in traits])
+
+	# remove weird characters
+	tweet = "".join(filter(lambda x: x in printable, tweet))
+
 	return tweet
 
 class User_Information:
@@ -42,9 +55,11 @@ class User_Information:
 		self.all_tweet_info = tweet_data['tweets']
 		all_tweets = []
 		all_processed = []
+		printable = set(string.printable)
 		for key, value in self.all_tweet_info.items():
 			all_tweets.append(value['text'])
-			all_processed.append(processTweet(value['text']))
+			all_processed.append(processTweet(value['text'],printable))
+
 
 		self.tweet_texts = all_tweets
 		self.processed_tweets = all_processed
