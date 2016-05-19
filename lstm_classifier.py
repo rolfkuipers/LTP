@@ -28,7 +28,7 @@ num_users = 1000	# Is all users
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--type',help="which classification problem to use", choices=("ie","si","ft", "jp"), default="ie")
-parser.add_argument('--NN', help="type of NN", choices=("lstm","simplernn"), default="simplernn")
+parser.add_argument('--NN', help="type of NN", choices=("lstm","simplernn",'dense'), default="simplernn")
 args = parser.parse_args()
 
 pickles = {'ie':'introvert_extravert','si':'sensing_intuition','ft':'feeling_thinking','jp':'judging_perceiving'}
@@ -117,6 +117,14 @@ if args.NN == 'simplernn':
 	nb_epoch = 5
 	model.add(Embedding(input_dim=max_words, output_dim=128, input_length=input_size, dropout=0.2))
 	model.add(SimpleRNN(128, dropout_W=0.2, dropout_U=0.2))  
+	model.add(Dense(nb_classes))
+	model.add(Activation('sigmoid'))
+
+if args.NN == 'dense':
+	model.add(Dense(256, input_dim=max_words,input_length=input_size))
+	model.add(Dropout(0.2))
+	model.add(Dense(128)
+	model.add(Dropout(0.2))
 	model.add(Dense(nb_classes))
 	model.add(Activation('sigmoid'))
 
