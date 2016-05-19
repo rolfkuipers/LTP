@@ -72,7 +72,7 @@ for tweets, m in user_list:
 
 # Create a tokenizer
 print('Fitting text on tokenizer...')
-tokenizer = Tokenizer()
+tokenizer = Tokenizer(nb_words=max_words)
 tokenizer.fit_on_texts(X)
 
 # Split the data
