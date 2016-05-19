@@ -121,7 +121,9 @@ if args.NN == 'simplernn':
 	model.add(Activation('sigmoid'))
 
 if args.NN == 'dense':
-	model.add(Dense(256, input_dim=max_words,input_length=input_size))
+	batch_size = 20
+	nb_epoch = 5
+	model.add(Dense(256, input_dim=max_words))
 	model.add(Dropout(0.2))
 	model.add(Dense(128))
 	model.add(Dropout(0.2))
