@@ -123,16 +123,15 @@ if args.NN == 'simplernn':
 if args.NN == 'dense':
 	batch_size = 20
 	nb_epoch = 5
-	model.add(Dense(256))
-	model.add(Dropout(0.2))
-	model.add(Dense(128))
-	model.add(Dropout(0.2))
+	model.add(Dense(512, input_shape=(max_words,)))
+	model.add(Activation('relu'))
+	model.add(Dropout(0.5))
 	model.add(Dense(nb_classes))
-	model.add(Activation('sigmoid'))
+	model.add(Activation('softmax'))
 
 
 model.compile(loss='categorical_crossentropy',
-              optimizer='sgd',
+              optimizer='adam',
               metrics=['accuracy'])
 
 history = model.fit(X_train, y_train,
