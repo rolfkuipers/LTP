@@ -32,9 +32,12 @@ shuffle(user_list)
 X, y   = [], []
 for tweets, m in user_list:
 	if len(tweets) < 1:	pass
-	else: X.append(tweets)
-		if args.type[0].upper() == m: y.append(1)
-		else: y.append(2)
+	else: 
+		X.append(tweets)
+		if args.type[0].upper() == m: 
+			y.append(1)
+		else: 
+			y.append(2)
 
 # Create a tokenizer
 print('Fitting text on tokenizer...')
